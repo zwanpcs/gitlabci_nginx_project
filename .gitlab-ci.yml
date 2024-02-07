@@ -7,11 +7,12 @@ build:
     DOCKER_TLS_CERTDIR: "/certs"
     DOCKER_TLS_VERIFY: 1
     DOCKER_CERT_PATH: "/certs/client"
+    IMAGE_NAME: "twistlock-scan-sample"
 
 
-  image: docker:24.0.5
+  image: docker:20.10.16
   services:
-    - name: docker:24.0.5-dind
+    - name: docker:20.10.16-dind
       alias: docker
 
 
