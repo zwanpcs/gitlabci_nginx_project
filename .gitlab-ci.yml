@@ -3,17 +3,16 @@ build:
   tags:
     - shared
   variables: 
-    DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: "/certs"
-    DOCKER_TLS_VERIFY: 1
-    DOCKER_CERT_PATH: "/certs/client"
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
     IMAGE_NAME: "twistlock-scan-sample"
 
 
-  image: docker:20.10.16
+  image: docker:18.09
   services:
-    - name: docker:20.10.16-dind
+    - name: docker:18.09-dind
       alias: docker
+      entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
 
 
   # before_script:
@@ -27,4 +26,4 @@ build:
       wget --header "Authorization: Basic $(echo -n $PCC_USER:$PCC_PASS | base64 | tr -d '\n')" "$PCC_CONSOLE_URL/api/v1/util/twistcli"
       chmod a+x ./twistcli
       docker build -t $IMAGE_NAME .
-      ./twistcli images scan --docker-address http://docker:2375 --address $PCC_CONSOLE_URL --user $PCC_USER --password $PCC_PASS --details $IMAGE_NAME
+      ./twistcli images scan --docker-address $DOCKER_HOST --address $PCC_CONSOLE_URL --user $PCC_USER --password $PCC_PASS --details $IMAGE_NAME
