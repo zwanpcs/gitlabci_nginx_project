@@ -14,11 +14,6 @@ build:
       alias: docker
       entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
 
-
-  # before_script:
-  #   -  groupadd -g 998 docker
-  #   -  cat /etc/group
-
   # Jobs are ran independently from each other, so build and scan needs to be in a single job.
 
   script:
